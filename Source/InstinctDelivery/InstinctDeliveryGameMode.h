@@ -13,11 +13,12 @@ class AInstinctDeliveryGameMode : public AGameModeBase
 
 public:
 	AInstinctDeliveryGameMode();
+	virtual void BeginPlay() override;
 
-/*public:
+public:
 	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
-		TSubclassOf<AActor> cell_class_name;
-		*/
+	TSubclassOf<AActor> cell_class_name;
+		
 };
 
 

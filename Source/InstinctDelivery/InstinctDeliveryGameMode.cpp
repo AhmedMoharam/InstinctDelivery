@@ -8,7 +8,12 @@ AInstinctDeliveryGameMode::AInstinctDeliveryGameMode()
 {
 	// set default pawn class to our ball
 	DefaultPawnClass = AInstinctDeliveryBall::StaticClass();
-	FVector location;
-	FRotator rotation;
-	//GetWorld()->SpawnActor<AActor>(cell_class_name, location, rotation);
+	
+}
+
+void AInstinctDeliveryGameMode::BeginPlay()
+{
+	FVector location(0,0,0);
+	FRotator rotation(0,0,0);
+	GetWorld()->SpawnActor<AActor>(cell_class_name, location, rotation);
 }
