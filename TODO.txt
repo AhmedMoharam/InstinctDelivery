@@ -1,0 +1,16 @@
+TODO InstinctDelivery:
+1. json file parsing to configure the game. (DONE)
+2. player camera control.
+3. coins random generation.
+4. player health and HUD score setup.
+5. level walls.
+------------------------
+6. polishing:
+	- materials to level.
+	- turret barrel moving (AI).
+	- turret coverage marking.
+	- projectile sound whenshooting / hiting the player.
+	- level sound.
+	- color player when hit.
+	- add force to player at hit location.
+	- lighting and post processing.
