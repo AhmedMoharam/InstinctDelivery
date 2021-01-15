@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
 		void getMedianCellIndex(int32 & x_index, int32 & y_index);
 
+	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
+		void getCellAtIndex(int XIndex, int YIndex, AActor* & cell);
+
 
 
 public:

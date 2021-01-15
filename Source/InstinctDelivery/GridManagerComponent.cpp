@@ -58,10 +58,8 @@ void UGridManagerComponent::ConstructCells(int32  cellCountX, int32  cellCountY)
 		for (int32 x = 0; x < cellCountX; x++) {
 			AActor* cell = GetWorld()->SpawnActor<AActor>(cell_class_name, location, rotation);
 			if (IMPLEMENTS_CELL_INTERFACE(cell)) {
-				UE_LOG(LogTemp, Warning, TEXT("SUCESS!"));
 				transform = CALL_CELL_INTERFACE_FUNC(cell, getXEdgeTransform);
 				location = transform.GetLocation();
-				UE_LOG(LogTemp, Warning, TEXT("Value is x:%f, y:%f , z: %f !"), transform.GetLocation().X, transform.GetLocation().Y, transform.GetLocation().Z);
 			}
 			row.Add(cell);
 		}
@@ -85,4 +83,10 @@ void UGridManagerComponent::getMedianCellIndex(int32 & x_index, int32 & y_index)
 {
 	y_index = (int32)(m_cells.Num() / 2);
 	x_index = (int32)(m_cells[y_index].Num() / 2);
+}
+
+void UGridManagerComponent::getCellAtIndex(int XIndex, int YIndex, AActor* & cell)
+{
+	cell = m_cells[YIndex][XIndex];
+	 
 }
