@@ -1,6 +1,6 @@
 TODO InstinctDelivery:
 1. json file parsing to configure the game. (DONE)
-2. player camera control.
+2. player camera control. (DONE)
 3. coins random generation.
 4. player health and HUD score setup.
 5. level walls.
