@@ -17,15 +17,18 @@ struct Turret {
 	float FireRate;
 	float Range;
 	bool UseSmartProjectile;
+	float ProjectileDamage;
 };
 
 struct PlayerSettings {
 	TArray <int> StartPosition;
+	float MaxHealth;
 };
 
 struct CoinsSettings {
 	int CoinsMaxCount;
 	int CoinsGenerationThreshold;
+	float ScorePerCoin;
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -52,13 +55,16 @@ public:
 	void getTurretsCount(int & TurretsCount);
 
 	UFUNCTION(BlueprintCallable, Category = "JsonConfigurator")
-	void getTurretSetupByIndex(int TurretIndex, int & XIndex, int & YIndex, int & YawAngle, float & ProjectileSpeed, float & FireRate, float & Range, bool & UseSmartProjectile);
+	void getTurretSetupByIndex(int TurretIndex, int & XIndex, int & YIndex, int & YawAngle, float & ProjectileSpeed, float & FireRate, float & Range, bool & UseSmartProjectile, float & ProjectileDamage);
 
 	UFUNCTION(BlueprintCallable, Category = "JsonConfigurator")
 	void getPlayerStartPosition(int & XIndex, int & YIndex, int & YawAngle);
 
 	UFUNCTION(BlueprintCallable, Category = "JsonConfigurator")
-	void getCoinsSettings(int & CoinsMaxCount, int & CoinsGenerationThreshold);
+	void getPlayerMaxHealth(float & PlayerMaxHealth);
+
+	UFUNCTION(BlueprintCallable, Category = "JsonConfigurator")
+	void getCoinsSettings(int & CoinsMaxCount, int & CoinsGenerationThreshold, float & ScorePerCoin);
 
 private:
 	Grid m_grid;

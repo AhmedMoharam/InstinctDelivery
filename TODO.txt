@@ -2,7 +2,7 @@ TODO InstinctDelivery:
 1. json file parsing to configure the game. (DONE)
 2. player camera control. (DONE)
 3. coins random generation. (DONE)
-4. player health and HUD score setup.
+4. player health and HUD score setup. (DONE)
 5. level walls.
 ------------------------
 6. polishing:
@@ -15,3 +15,5 @@ TODO InstinctDelivery:
 	- add force to player at hit location.
 	- lighting and post processing.
 	- add start/close game menu
+optional:
+	- add timer between coin spawning

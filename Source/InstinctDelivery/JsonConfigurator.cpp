@@ -39,6 +39,7 @@ UJsonConfigurator::UJsonConfigurator()
 			m_turrets.Last().FireRate = turret_data["FireRate"].get<float>();
 			m_turrets.Last().Range = turret_data["Range"].get<float>();
 			m_turrets.Last().UseSmartProjectile = turret_data["UseSmartProjectile"].get<bool>();
+			m_turrets.Last().ProjectileDamage = turret_data["ProjectileDamage"].get<float>();
 		}
 
 		// parsing player settings
@@ -47,11 +48,12 @@ UJsonConfigurator::UJsonConfigurator()
 		for (int i = 0; i < position.size(); i++) {
 			m_playerSettings.StartPosition[i] = position[i];
 		}
+		m_playerSettings.MaxHealth = jsonFileData["PlayerSettings"]["MaxHealth"].get<int>();
 
 		// coins settings
 		m_coinsSettings.CoinsMaxCount = jsonFileData["CoinsSettings"]["CoinsMaxCount"].get<int>();
 		m_coinsSettings.CoinsGenerationThreshold = jsonFileData["CoinsSettings"]["CoinsGenerationThreshold"].get<int>();
-
+		m_coinsSettings.ScorePerCoin = jsonFileData["CoinsSettings"]["ScorePerCoin"].get<float>();
 		UE_LOG(LogTemp, Warning, TEXT("[UJsonConfigurator] Parsing successful!"));
 	}
 
@@ -87,7 +89,7 @@ void UJsonConfigurator::getTurretsCount(int & TurretsCount)
 	TurretsCount = m_turrets.Num();
 }
 
-void UJsonConfigurator::getTurretSetupByIndex(int TurretIndex, int & XIndex, int & YIndex, int & YawAngle, float & ProjectileSpeed, float & FireRate, float & Range, bool & UseSmartProjectile)
+void UJsonConfigurator::getTurretSetupByIndex(int TurretIndex, int & XIndex, int & YIndex, int & YawAngle, float & ProjectileSpeed, float & FireRate, float & Range, bool & UseSmartProjectile, float & ProjectileDamage)
 {
 	XIndex = m_turrets[TurretIndex].Position[0];
 	YIndex = m_turrets[TurretIndex].Position[1];
@@ -96,6 +98,7 @@ void UJsonConfigurator::getTurretSetupByIndex(int TurretIndex, int & XIndex, int
 	FireRate = m_turrets[TurretIndex].FireRate;
 	Range = m_turrets[TurretIndex].Range;
 	UseSmartProjectile = m_turrets[TurretIndex].UseSmartProjectile;
+	ProjectileDamage = m_turrets[TurretIndex].ProjectileDamage;
 }
 
 void UJsonConfigurator::getPlayerStartPosition(int & XIndex, int & YIndex, int & YawAngle)
@@ -105,9 +108,15 @@ void UJsonConfigurator::getPlayerStartPosition(int & XIndex, int & YIndex, int &
 	YawAngle = m_playerSettings.StartPosition[2];
 }
 
-void UJsonConfigurator::getCoinsSettings(int & CoinsMaxCount, int & CoinsGenerationThreshold)
+void UJsonConfigurator::getPlayerMaxHealth(float & PlayerMaxHealth)
+{
+	PlayerMaxHealth = m_playerSettings.MaxHealth;
+}
+
+void UJsonConfigurator::getCoinsSettings(int & CoinsMaxCount, int & CoinsGenerationThreshold, float & ScorePerCoin)
 {
 	CoinsMaxCount = m_coinsSettings.CoinsMaxCount;
 	CoinsGenerationThreshold = m_coinsSettings.CoinsGenerationThreshold;
+	ScorePerCoin = m_coinsSettings.ScorePerCoin;
 }
 
