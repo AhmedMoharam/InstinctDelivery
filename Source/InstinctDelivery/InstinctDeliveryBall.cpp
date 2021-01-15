@@ -28,12 +28,16 @@ AInstinctDeliveryBall::AInstinctDeliveryBall()
 	// Create a camera boom attached to the root (ball)
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm0"));
 	SpringArm->SetupAttachment(RootComponent);
-	SpringArm->bDoCollisionTest = false;
+	SpringArm->bDoCollisionTest = true;
 	SpringArm->bAbsoluteRotation = true; // Rotation of the ball should not affect rotation of boom
 	SpringArm->RelativeRotation = FRotator(-45.f, 0.f, 0.f);
 	SpringArm->TargetArmLength = 1200.f;
 	SpringArm->bEnableCameraLag = false;
 	SpringArm->CameraLagSpeed = 3.f;
+	SpringArm->bUsePawnControlRotation = true;
+	SpringArm->bInheritPitch = false;
+	SpringArm->bInheritRoll = false;
+	SpringArm->bInheritYaw = false;
 
 	// Create a camera and attach to boom
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera0"));
@@ -41,7 +45,7 @@ AInstinctDeliveryBall::AInstinctDeliveryBall()
 	Camera->bUsePawnControlRotation = false; // We don't want the controller rotating the camera
 
 	// Set up forces
-	RollTorque = 50000000.0f;
+	RollForce = 1000000.0f;
 	JumpImpulse = 350000.0f;
 	bCanJump = true; // Start being able to jump
 }
@@ -52,24 +56,27 @@ void AInstinctDeliveryBall::SetupPlayerInputComponent(class UInputComponent* Pla
 	// set up gameplay key bindings
 	PlayerInputComponent->BindAxis("MoveRight", this, &AInstinctDeliveryBall::MoveRight);
 	PlayerInputComponent->BindAxis("MoveForward", this, &AInstinctDeliveryBall::MoveForward);
-
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AInstinctDeliveryBall::Jump);
 
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AInstinctDeliveryBall::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AInstinctDeliveryBall::TouchStopped);
 }
 
 void AInstinctDeliveryBall::MoveRight(float Val)
 {
-	const FVector Torque = FVector(-1.f * Val * RollTorque, 0.f, 0.f);
-	Ball->AddTorqueInRadians(Torque);
+	const FRotator YawRotation(0, Controller->GetControlRotation().Yaw, 0);
+	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	const FVector Force = Val * RollForce * Direction;
+	Ball->AddForce(Force);
 }
 
 void AInstinctDeliveryBall::MoveForward(float Val)
 {
-	const FVector Torque = FVector(0.f, Val * RollTorque, 0.f);
-	Ball->AddTorqueInRadians(Torque);	
+	//getting Yaw Rotation X-vector using Rotator.Vector() or as follows
+	const FRotator YawRotation (0, Controller->GetControlRotation().Yaw, 0);
+	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	const FVector Force = Val * RollForce * Direction;
+	Ball->AddForce(Force);	
 }
 
 void AInstinctDeliveryBall::Jump()
@@ -87,25 +94,4 @@ void AInstinctDeliveryBall::NotifyHit(class UPrimitiveComponent* MyComp, class A
 	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
 
 	bCanJump = true;
-}
-
-void AInstinctDeliveryBall::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	if (bCanJump)
-	{
-		const FVector Impulse = FVector(0.f, 0.f, JumpImpulse);
-		Ball->AddImpulse(Impulse);
-		bCanJump = false;
-	}
-
-}
-
-void AInstinctDeliveryBall::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	if (bCanJump)
-	{
-		const FVector Impulse = FVector(0.f, 0.f, JumpImpulse);
-		Ball->AddImpulse(Impulse);
-		bCanJump = false;
-	}
 }

@@ -32,7 +32,7 @@ public:
 
 	/** Torque to apply when trying to roll ball */
 	UPROPERTY(EditAnywhere, Category=Ball)
-	float RollTorque;
+	float RollForce;
 
 	/** Indicates whether we can currently jump, use to prevent double jumping */
 	bool bCanJump;
@@ -55,12 +55,6 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
-
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 public:
 	/** Returns Ball subobject **/
