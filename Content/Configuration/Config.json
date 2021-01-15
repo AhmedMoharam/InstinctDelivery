@@ -8,18 +8,22 @@
 		"Position" : [ 0, 0, 90],
 		"ProjectileSpeed" : 4000,
 		"FireRate" : 2,
-		"Range" : 1500,
+		"Range" : 800,
 		"UseSmartProjectile" : true
 	},
 	"Turret1" : {
 		"Position" : [ 1, 2, 180],
 		"ProjectileSpeed" : 4000,
 		"FireRate" : 4,
-		"Range" : 1000,
+		"Range" : 800,
 		"UseSmartProjectile" : false
 	}
   },
   "PlayerSettings": {
 	"StartPosition" : [1, 1 , 90]
+	},
+  "CoinsSettings": {
+	"CoinsMaxCount" : 10,
+	"CoinsGenerationThreshold" : 1
 	}
 }

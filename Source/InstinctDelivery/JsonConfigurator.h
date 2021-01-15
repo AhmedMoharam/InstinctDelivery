@@ -23,6 +23,11 @@ struct PlayerSettings {
 	TArray <int> StartPosition;
 };
 
+struct CoinsSettings {
+	int CoinsMaxCount;
+	int CoinsGenerationThreshold;
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class INSTINCTDELIVERY_API UJsonConfigurator : public UActorComponent
 {
@@ -52,10 +57,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "JsonConfigurator")
 	void getPlayerStartPosition(int & XIndex, int & YIndex, int & YawAngle);
 
+	UFUNCTION(BlueprintCallable, Category = "JsonConfigurator")
+	void getCoinsSettings(int & CoinsMaxCount, int & CoinsGenerationThreshold);
+
 private:
 	Grid m_grid;
 	TArray <Turret> m_turrets;
 	PlayerSettings m_playerSettings;
+	CoinsSettings m_coinsSettings;
 
 		
 };

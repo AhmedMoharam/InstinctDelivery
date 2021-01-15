@@ -48,6 +48,10 @@ UJsonConfigurator::UJsonConfigurator()
 			m_playerSettings.StartPosition[i] = position[i];
 		}
 
+		// coins settings
+		m_coinsSettings.CoinsMaxCount = jsonFileData["CoinsSettings"]["CoinsMaxCount"].get<int>();
+		m_coinsSettings.CoinsGenerationThreshold = jsonFileData["CoinsSettings"]["CoinsGenerationThreshold"].get<int>();
+
 		UE_LOG(LogTemp, Warning, TEXT("[UJsonConfigurator] Parsing successful!"));
 	}
 
@@ -99,5 +103,11 @@ void UJsonConfigurator::getPlayerStartPosition(int & XIndex, int & YIndex, int &
 	XIndex = m_playerSettings.StartPosition[0];
 	YIndex = m_playerSettings.StartPosition[1];
 	YawAngle = m_playerSettings.StartPosition[2];
+}
+
+void UJsonConfigurator::getCoinsSettings(int & CoinsMaxCount, int & CoinsGenerationThreshold)
+{
+	CoinsMaxCount = m_coinsSettings.CoinsMaxCount;
+	CoinsGenerationThreshold = m_coinsSettings.CoinsGenerationThreshold;
 }
 

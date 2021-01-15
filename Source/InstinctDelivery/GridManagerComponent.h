@@ -6,6 +6,11 @@
 #include "Components/ActorComponent.h"
 #include "GridManagerComponent.generated.h"
 
+struct Cell {
+	Cell() :CellActor(nullptr),busy(false) {}
+	AActor* CellActor;
+	bool busy;
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class INSTINCTDELIVERY_API UGridManagerComponent : public UActorComponent
@@ -39,16 +44,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
 		void getCellAtIndex(int XIndex, int YIndex, AActor* & cell);
 
+	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
+		void getAvailableCells( TArray<AActor* > & cells);
 
+	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
+		void markCellBusy(int XIndex, int YIndex);
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Cell_Helper")
+	UPROPERTY(EditDefaultsOnly, Category = "GridManagerComponent")
 		TSubclassOf<AActor> cell_class_name;
 
 
 private:
 	int32  m_CellCountX;
 	int32  m_CellCountY;
-	TArray < TArray<AActor*> > m_cells;
+	TArray < TArray<Cell> > m_cells;
 		
 };

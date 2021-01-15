@@ -41,8 +41,8 @@ void UGridManagerComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 FVector UGridManagerComponent::getCellSpawnLocationAtIndex(int32  x_index, int32  y_index)
 {
-	if (IMPLEMENTS_CELL_INTERFACE(m_cells[y_index][x_index])) {
-		return  CALL_CELL_INTERFACE_FUNC(m_cells[y_index][x_index], getSpawnLocation);
+	if (IMPLEMENTS_CELL_INTERFACE(m_cells[y_index][x_index].CellActor)) {
+		return  CALL_CELL_INTERFACE_FUNC(m_cells[y_index][x_index].CellActor, getSpawnLocation);
 	}
 	return FVector();
 }
@@ -54,18 +54,20 @@ void UGridManagerComponent::ConstructCells(int32  cellCountX, int32  cellCountY)
 	FTransform transform;
 
 	for (int32 y = 0; y < cellCountY; y++) {
-		TArray<AActor * > row;
+		TArray<Cell> row;
 		for (int32 x = 0; x < cellCountX; x++) {
-			AActor* cell = GetWorld()->SpawnActor<AActor>(cell_class_name, location, rotation);
-			if (IMPLEMENTS_CELL_INTERFACE(cell)) {
-				transform = CALL_CELL_INTERFACE_FUNC(cell, getXEdgeTransform);
+			Cell cell;
+			AActor* cellActor = GetWorld()->SpawnActor<AActor>(cell_class_name, location, rotation);
+			if (IMPLEMENTS_CELL_INTERFACE(cellActor)) {
+				transform = CALL_CELL_INTERFACE_FUNC(cellActor, getXEdgeTransform);
 				location = transform.GetLocation();
 			}
+			cell.CellActor = cellActor;
 			row.Add(cell);
 		}
 		m_cells.Add(row);
-		if (IMPLEMENTS_CELL_INTERFACE(m_cells[y][0])) {
-			transform = CALL_CELL_INTERFACE_FUNC(m_cells[y][0], getNextCellToRightTransform);
+		if (IMPLEMENTS_CELL_INTERFACE(m_cells[y][0].CellActor)) {
+			transform = CALL_CELL_INTERFACE_FUNC(m_cells[y][0].CellActor, getNextCellToRightTransform);
 			location = transform.GetLocation();
 		}
 	}
@@ -87,6 +89,21 @@ void UGridManagerComponent::getMedianCellIndex(int32 & x_index, int32 & y_index)
 
 void UGridManagerComponent::getCellAtIndex(int XIndex, int YIndex, AActor* & cell)
 {
-	cell = m_cells[YIndex][XIndex];
+	cell = m_cells[YIndex][XIndex].CellActor;
 	 
+}
+
+void UGridManagerComponent::getAvailableCells(TArray<AActor*>& cells)
+{
+	for (auto & cell_row : m_cells) {
+		for (auto & cell : cell_row) {
+			if (!cell.busy)
+				cells.Add(cell.CellActor);
+		}
+	}
+}
+
+void UGridManagerComponent::markCellBusy(int XIndex, int YIndex)
+{
+	m_cells[YIndex][XIndex].busy = true;
 }
