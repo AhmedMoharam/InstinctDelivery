@@ -71,6 +71,43 @@ void UGridManagerComponent::ConstructCells(int32  cellCountX, int32  cellCountY)
 			location = transform.GetLocation();
 		}
 	}
+	ConstructWalls();
+}
+
+void UGridManagerComponent::ConstructWalls()
+{
+	// construct north boundary (Xminus): Y[0],X[0] -> Y[1],X[0] -> Y[2],X[0]
+	FTransform transform;
+	for (auto & cell_row : m_cells) {
+		if (IMPLEMENTS_CELL_INTERFACE(cell_row[0].CellActor)) {
+			transform = CALL_CELL_INTERFACE_FUNC(cell_row[0].CellActor, getXMinusEdgeTransform);
+			GetWorld()->SpawnActor<AActor>(wall_class_name, transform.GetLocation(), transform.GetRotation().Rotator());
+		}
+	}
+
+	// construct south boundary (X): Y[0],X[last_indx] -> Y[1],X[last_indx]
+	for (auto & cell_row : m_cells) {
+		if (IMPLEMENTS_CELL_INTERFACE(cell_row.Last().CellActor)) {
+			transform = CALL_CELL_INTERFACE_FUNC(cell_row.Last().CellActor, getXEdgeTransform);
+			GetWorld()->SpawnActor<AActor>(wall_class_name, transform.GetLocation(), transform.GetRotation().Rotator());
+		}
+	}
+
+	// construct east boundary (Y): Y[last_indx], X[0] -> Y[last_indx], X[1]
+	for (auto & cell : m_cells.Last()) {
+		if (IMPLEMENTS_CELL_INTERFACE(cell.CellActor)) {
+			transform = CALL_CELL_INTERFACE_FUNC(cell.CellActor, getYEdgeTransform);
+			GetWorld()->SpawnActor<AActor>(wall_class_name, transform.GetLocation(), transform.GetRotation().Rotator());
+		}
+	}
+
+	//construct west boundary (Yminus): Y[0],X[0] -> Y[0],X[1]
+	for (auto & cell : m_cells[0]) {
+		if (IMPLEMENTS_CELL_INTERFACE(cell.CellActor)) {
+			transform = CALL_CELL_INTERFACE_FUNC(cell.CellActor, getYMinusEdgeTransform);
+			GetWorld()->SpawnActor<AActor>(wall_class_name, transform.GetLocation(), transform.GetRotation().Rotator());
+		}
+	}
 }
 
 bool UGridManagerComponent::IsVaildCell(int32 x_index, int32 y_index)

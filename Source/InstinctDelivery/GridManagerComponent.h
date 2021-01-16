@@ -36,6 +36,9 @@ public:
 		void ConstructCells(int32  cellCountX, int32  cellCountY);
 
 	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
+		void ConstructWalls();
+
+	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
 		bool IsVaildCell(int32  x_index, int32  y_index);
 
 	UFUNCTION(BlueprintCallable, Category = "GridManagerComponent")
@@ -53,6 +56,8 @@ public:
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "GridManagerComponent")
 		TSubclassOf<AActor> cell_class_name;
+	UPROPERTY(EditDefaultsOnly, Category = "GridManagerComponent")
+		TSubclassOf<AActor> wall_class_name;
 
 
 private:

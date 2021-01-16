@@ -3,7 +3,7 @@ TODO InstinctDelivery:
 2. player camera control. (DONE)
 3. coins random generation. (DONE)
 4. player health and HUD score setup. (DONE)
-5. level walls.
+5. level walls. (DONE)
 ------------------------
 6. polishing:
 	- materials to level.
