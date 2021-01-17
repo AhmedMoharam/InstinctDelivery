@@ -12,8 +12,7 @@ TODO InstinctDelivery:
 	- projectile sound whenshooting / hiting the player.
 	- level sound.
 	- color player when hit.
-	- add force to player at hit location.
-	- lighting and post processing.
-	- add start/close game menu
+	- add start/close game menu.
+	- add force to player at hit location. (DONE)
 optional:
 	- add timer between coin spawning

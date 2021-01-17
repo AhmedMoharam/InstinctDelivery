@@ -101,7 +101,7 @@ void UGridManagerComponent::ConstructWalls()
 		}
 	}
 
-	//construct west boundary (Yminus): Y[0],X[0] -> Y[0],X[1]
+	// construct west boundary (Yminus): Y[0],X[0] -> Y[0],X[1]
 	for (auto & cell : m_cells[0]) {
 		if (IMPLEMENTS_CELL_INTERFACE(cell.CellActor)) {
 			transform = CALL_CELL_INTERFACE_FUNC(cell.CellActor, getYMinusEdgeTransform);
@@ -126,8 +126,7 @@ void UGridManagerComponent::getMedianCellIndex(int32 & x_index, int32 & y_index)
 
 void UGridManagerComponent::getCellAtIndex(int XIndex, int YIndex, AActor* & cell)
 {
-	cell = m_cells[YIndex][XIndex].CellActor;
-	 
+	cell = m_cells[YIndex][XIndex].CellActor; 
 }
 
 void UGridManagerComponent::getAvailableCells(TArray<AActor*>& cells)
