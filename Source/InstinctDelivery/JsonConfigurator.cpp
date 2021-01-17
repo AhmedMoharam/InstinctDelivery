@@ -16,7 +16,7 @@ UJsonConfigurator::UJsonConfigurator()
 	PrimaryComponentTick.bCanEverTick = false;
 	
 	// ...
-	FString ConfigFile = FPaths::GameContentDir() + "/Configuration/Config.json";
+	FString ConfigFile = FPaths::ProjectContentDir() + "/Configuration/Config.json";
 	if (FPaths::FileExists(ConfigFile)) {
 		std::ifstream fs(*ConfigFile);
 		json jsonFileData;
