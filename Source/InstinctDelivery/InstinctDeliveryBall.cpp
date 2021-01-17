@@ -11,7 +11,7 @@
 
 AInstinctDeliveryBall::AInstinctDeliveryBall()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> BallMesh(TEXT("/Game/Rolling/Meshes/BallMesh.BallMesh"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> BallMesh(TEXT("/Game/Character/Rolling/Meshes/BallMesh.BallMesh"));
 
 	// Create mesh component for the ball
 	Ball = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Ball0"));
