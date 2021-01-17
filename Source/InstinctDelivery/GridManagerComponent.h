@@ -54,9 +54,9 @@ public:
 		void markCellBusy(int XIndex, int YIndex);
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "GridManagerComponent")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GridManagerComponent")
 		TSubclassOf<AActor> cell_class_name;
-	UPROPERTY(EditDefaultsOnly, Category = "GridManagerComponent")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GridManagerComponent")
 		TSubclassOf<AActor> wall_class_name;
 
 
